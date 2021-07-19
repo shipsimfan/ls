@@ -10,19 +10,19 @@ int main(int argc, const char* argv[]) {
         path = argv[1];
     }
 
-    uint64_t dd = open_directory(path);
-    if (dd == 0xFFFFFFFFFFFFFFFF) {
-        printf("No such directory: %s", argv[1]);
+    int64_t dd = open_directory(path);
+    if (dd < 0) {
+        printf("Error while opening %s: %li", argv[1], dd);
         exit(1);
     }
 
     Dirent entry;
     while (1) {
-        uint64_t status = read_directory(dd, &entry);
+        int64_t status = read_directory(dd, &entry);
         if (status == 0) {
             break;
-        } else if (status == 0xFFFFFFFFFFFFFFFF) {
-            printf("Error while reading directory");
+        } else if (status < 0) {
+            printf("Error while reading directory: %li", status);
             exit(1);
         }
 
