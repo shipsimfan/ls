@@ -1,6 +1,7 @@
 #include <los.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 int main(int argc, const char* argv[]) {
     const char* path;
@@ -12,7 +13,7 @@ int main(int argc, const char* argv[]) {
 
     int64_t dd = open_directory(path);
     if (dd < 0) {
-        printf("Error while opening %s: %li", argv[1], dd);
+        printf("Error while opening %s: %s\n", argv[1], strerror(dd));
         exit(1);
     }
 
@@ -22,7 +23,7 @@ int main(int argc, const char* argv[]) {
         if (status == 0) {
             break;
         } else if (status < 0) {
-            printf("Error while reading directory: %li", status);
+            printf("Error while reading directory: %s\n", strerror(status));
             exit(1);
         }
 
